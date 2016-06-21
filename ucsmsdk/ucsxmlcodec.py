@@ -40,7 +40,7 @@ def to_xml_str(elem):
     return ET.tostring(elem)
 
 
-def extract_root_elem(xml_str):
+def extract_root_elem(xml_str=None, xml_file=None):
     """
     extracts root xml element from xml string.
 
@@ -59,8 +59,11 @@ def extract_root_elem(xml_str):
         root_element = extract_root_elem(xml_str)
     """
 
-    root_elem = ET.fromstring(xml_str)
-    return root_elem
+    if xml_str:
+        return ET.fromstring(xml_str)
+    elif xml_file:
+        tree = ET.parse(xml_file)
+        return tree.getroot()
 
 
 def from_xml_str(xml_str, handle=None):
@@ -91,3 +94,8 @@ def from_xml_str(xml_str, handle=None):
     response = ucscoreutils.get_ucs_obj(class_id, root_elem)
     response.from_xml(root_elem, handle)
     return response
+
+
+def convert_dict_to_xml(tag, **attrs):
+    root = Element(tag, **attrs)
+    return ET.tostring(root)
