@@ -216,6 +216,10 @@ class ManagedObject(UcsBase):
         out_str += "\n"
         return out_str
 
+    def _not_mo_prop(self, prop):
+        return prop in ManagedObject.__internal_prop or prop.startswith(
+                    "_ManagedObject__")
+
     def mark_dirty(self):
         """
         This method marks the managed object dirty.
@@ -665,3 +669,6 @@ class GenericMo(UcsBase):
                 out_str += str(prop).ljust(ts * 4) + ':' + str(prop_val) + "\n"
 
             return out_str
+
+    def _not_mo_prop(self, prop):
+        return prop.startswith('_')
